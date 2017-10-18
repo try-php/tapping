@@ -4,6 +4,10 @@ namespace Trying;
 use function Task\{forkTask, getProcessStatus};
 use function Crayon\{text};
 use function Load\{dots,removeLastCharsByCount};
+use function Argv\{cleanArguments, getFlags};
+
+$cleanedArguments = cleanArguments($argv);
+$flags = getFlags($cleanedArguments, ['b' => 'build', 'ci' => 'build']);
 
 function test(string $desc, callable $test) {
 	$loadingDesc = text($desc)->yellow();
@@ -29,6 +33,9 @@ function test(string $desc, callable $test) {
 			}, "$successMessage");
 		} catch (\Exception $ex) {
 			echo "$failMessage\n";
+			if ($flags->build) {
+				exit(1);
+			}
 		}
 	} else {
 		exit;
