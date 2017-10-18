@@ -13,7 +13,7 @@ $ composer require try/test
 <?php
 require_once '/path/to/autoload.php';
 
-use function Try\test;
+use function Trying\test;
 
 test('some description of the test', function () {
 	exit(0); // test will be marked as passed
