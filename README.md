@@ -1,6 +1,8 @@
 # test
 > Atomic test functions
 
+[![Build Status](https://travis-ci.org/try-php/test.svg?branch=master)](https://travis-ci.org/try-php/test)
+
 ## Install
 
 ```bash
