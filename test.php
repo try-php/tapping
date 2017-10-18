@@ -4,12 +4,12 @@ namespace Trying;
 use function Task\{forkTask, getProcessStatus};
 use function Crayon\{text};
 use function Load\{dots,removeLastCharsByCount};
-use function Argv\{cleanArguments, getFlags};
-
-$cleanedArguments = cleanArguments($argv);
-$flags = getFlags($cleanedArguments, ['b' => 'build', 'ci' => 'build']);
 
 function test(string $desc, callable $test) {
+	// build flag
+	$options = getopt('b', ['build', 'ci']);
+	$buildState = isset($options['b']) || isset($options['build']) || isset($options['ci']);
+
 	$loadingDesc = text($desc)->yellow();
 	$successIndicator = text('ok')->green();
 	$successMessage = "$desc $successIndicator";
@@ -32,8 +32,8 @@ function test(string $desc, callable $test) {
 				return "$loadingDesc";
 			}, "$successMessage");
 		} catch (\Exception $ex) {
-			echo "$failMessage\n";
-			if ($flags->build) {
+			fwrite(fopen('php://output', 'w'), "$failMessage\n");
+			if ($buildState) {
 				exit(1);
 			}
 		}

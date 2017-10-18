@@ -14,8 +14,7 @@
     	"php": ">=7.0",
         "troublete/task": "^2.1",
         "troublete/crayon": "^1.1",
-        "troublete/load": "^1.0",
-        "troublete/argv": "^2.0"
+        "troublete/load": "^1.0"
     },
     "autoload": {
     	"files": [
