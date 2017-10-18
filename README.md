@@ -4,7 +4,7 @@
 ## Install
 
 ```bash
-$ composer require try-php/test
+$ composer require try/test
 ```
 
 ## Usage
