@@ -1,0 +1,23 @@
+{
+    "name": "try/test",
+    "description": "Atomic test functions",
+    "type": "library",
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "Willi Eßer",
+            "email": "willi.esser@troublete.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "troublete/task": "^2.1",
+        "troublete/crayon": "^1.1",
+        "troublete/load": "^1.0"
+    },
+    "autoload": {
+    	"files": [
+    		"./test.php"
+    	]
+    }
+}
