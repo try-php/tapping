@@ -12,8 +12,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * flag support for flag `--build`, `--ci`, `-b`, which exit the parent script with 1 so a ci build would exit
 
+* added API docs
+
 ### [Changed]
 
 * output to stream write
 
 * namespace to `Tapping`
+
