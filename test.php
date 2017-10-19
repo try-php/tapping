@@ -11,9 +11,9 @@ use function Load\{dots,removeLastCharsByCount};
  * @param callable $test
  */
 function test(string $description, callable $test) {
-	// build flag
-	$options = getopt('b', ['build', 'ci']);
-	$buildFlag = isset($options['b']) || isset($options['build']) || isset($options['ci']);
+	$options = getopt('bq', ['build', 'quite']);
+	$buildFlag = isset($options['b']) || isset($options['build']);
+	$quiteFlag = isset($options['q']) || isset($options['quite']);
 
 	$loadingDescription = text($description)->yellow();
 
@@ -23,7 +23,24 @@ function test(string $description, callable $test) {
 	$failIndicator = text('not ok')->red();
 	$failMessage = "$description $failIndicator";
 
-	$pid = forkTask($test, []);
+	try {
+		$pid = forkTask($test, []);
+	} catch(\Exception $ex) {
+		if (!$quiteFlag) {
+			$cleanupBlock = str_repeat(' ', strlen($description) + 2);
+			$redBlock = text('▌')->red();
+			$exceptionFile = text($ex->getFile());
+			$exceptionLine = text($ex->getLine());
+			$exceptionMessage = text($ex->getMessage())->red();
+			
+			fwrite(fopen('php://output', 'w'), "\r$cleanupBlock");
+			fwrite(fopen('php://output', 'w'), "\n$redBlock $description");
+			fwrite(fopen('php://output', 'w'), "\n$redBlock $exceptionFile #$exceptionLine");
+			fwrite(fopen('php://output', 'w'), "\n$redBlock $exceptionMessage\n\n");
+		}
+
+		exit(1);
+	}
 
 	if ($pid > 0) {
 		try {
@@ -41,6 +58,8 @@ function test(string $description, callable $test) {
 			}, "$successMessage");
 		} catch (\Exception $ex) {
 			fwrite(fopen('php://output', 'w'), "$failMessage\n");
+
+			// exit parent process if in a ci run
 			if ($buildFlag) {
 				exit(1);
 			}
