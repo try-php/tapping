@@ -1,5 +1,5 @@
 <?php
-namespace Trying;
+namespace Tapping;
 
 use function Task\{forkTask, getProcessStatus};
 use function Crayon\{text};

@@ -1,12 +1,12 @@
-# test
-> Atomic test functions
+# tapping
+> Atomic testing
 
 [![Build Status](https://travis-ci.org/try-php/test.svg?branch=master)](https://travis-ci.org/try-php/test)
 
 ## Install
 
 ```bash
-$ composer require try/test
+$ composer require try/tapping
 ```
 
 ## Usage
@@ -15,7 +15,7 @@ $ composer require try/test
 <?php
 require_once '/path/to/autoload.php';
 
-use function Trying\test;
+use function Tapping\test;
 
 test('some description of the test', function () {
 	exit(0); // test will be marked as passed
