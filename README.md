@@ -29,7 +29,7 @@ test('some description of the test', function () {
 
 ### Functions
 
-#### test($description, $test)
+#### `test($description, $test)`
 
 Function to run an atomic test and output it's status.
 
@@ -54,7 +54,7 @@ The test run will exit the whole process with `-1`, as soon as the first test fa
 
 Flag aliases which trigger such behaviour are `--build`, `--ci` and `-b`.
 
-#### todo($description)
+#### `todo($description)`
 
 Function to show an notation for a test case, not yet written. As reminder or note or whatever.
 
