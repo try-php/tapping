@@ -20,8 +20,7 @@ require_once '/path/to/autoload.php';
 use function Tapping\test;
 
 test('some description of the test', function () {
-	exit(0); // test will be marked as passed
-	// exit(1); to indicate the test failed
+	// throw an Exception or exit(1) to fail a test
 });
 ```
 
@@ -38,7 +37,7 @@ Function to run an atomic test and output it's status.
 | Argument | Type | Description |
 |---|---|---|
 | $description | `string` | The description what the test case is supposed to do. Will be output on test run with an indication of success or failure. |
-| $test | `callable` | The test case encapsulated in an callable. The test case will be forked as a child process, so anything in the callable is appropriate, since it won't affect the parent testrunner process. Needs to `exit(1)` to indicate test as failed and `exit(0)` to mark the test as passed. |
+| $test | `callable` | The test case encapsulated in an callable. The test case will be forked as a child process, so anything in the callable is encapsulated from the parent process. Needs to `exit(1)` or a thrown Exception to indicate test as failed (throwing an exception will render an error block) and `exit(0)` or just nothing to mark the test as passed. |
 
 ##### CLI Flags
 
@@ -52,7 +51,9 @@ $ php test.php --build
 
 The test run will exit the whole process with `-1`, as soon as the first test fails.
 
-Flag aliases which trigger such behaviour are `--build`, `--ci` and `-b`.
+Flag aliases which trigger such behaviour are `--build` and `-b`.
+
+In addition to the build flag, it is also possible to provide an `--quite` (short `--q`) flag to suppress fail information (File, Line and error that occured).
 
 #### `todo($description)`
 
