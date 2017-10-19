@@ -37,7 +37,7 @@ Function to run an atomic test and output it's status.
 | Argument | Type | Description |
 |---|---|---|
 | $description | `string` | The description what the test case is supposed to do. Will be output on test run with an indication of success or failure. |
-| $test | `callable` | The test case encapsulated in an callable. The test case will be forked as a child process, so anything in the callable is encapsulated from the parent process. Needs to `exit(1)` or a thrown Exception to indicate test as failed (throwing an exception will render an error block) and `exit(0)` or just nothing to mark the test as passed. |
+| $test | `callable` | The test case encapsulated in an callable. The test case will be forked as a child process, so anything in the callable is encapsulated from the parent process. Needs to `exit(1)` or a thrown Exception to indicate test as failed (throwing an exception will render an error block). `exit(0)` or just nothing will mark the test as passed. |
 
 ##### CLI Flags
 
@@ -57,7 +57,7 @@ In addition to the build flag, it is also possible to provide an `--quite` (shor
 
 #### `todo($description)`
 
-Function to show an notation for a test case, not yet written. As reminder or note or whatever.
+Function to show a notation for a test case, not yet written. As reminder or note or whatever.
 
 ##### Arguments
 
