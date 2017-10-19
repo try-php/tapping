@@ -5,8 +5,16 @@ use function Tapping\{test, todo};
 
 // desc is shown in both cases
 ob_start();
-test('desc', function () {exit(0);});
+test('desc', function () {exit;});
 $successState = ob_get_clean();
+
+if (!preg_match('/desc/', $successState)) {
+	trigger_error('test failed', E_USER_ERROR);
+}
+
+ob_start();
+test('desc', function () {throw new Exception('something happened');});
+$failState = ob_get_clean();
 
 if (!preg_match('/desc/', $successState)) {
 	trigger_error('test failed', E_USER_ERROR);
@@ -22,7 +30,7 @@ if (!preg_match('/desc/', $successState)) {
 
 // successful
 ob_start();
-test('desc', function () {exit(0);});
+test('desc', function () {exit;});
 $successState = ob_get_clean();
 
 if (preg_match('/not/', $successState)) {
@@ -31,7 +39,7 @@ if (preg_match('/not/', $successState)) {
 
 // fail
 ob_start();
-test('desc', function () {exit(1);});
+test('desc', function () {throw new Exception('something happened');});
 $successState = ob_get_clean();
 
 if (!preg_match('/not/', $successState)) {
