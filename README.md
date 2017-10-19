@@ -53,7 +53,7 @@ The test run will exit the whole process with `-1`, as soon as the first test fa
 
 Flag aliases which trigger such behaviour are `--build` and `-b`.
 
-In addition to the build flag, it is also possible to provide an `--quite` (short `--q`) flag to suppress fail information (File, Line and error that occured).
+In addition to the build flag, it is also possible to provide an `--quite` (short `-q`) flag to suppress fail information (File, Line and error that occured).
 
 #### `todo($description)`
 
