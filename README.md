@@ -3,7 +3,7 @@
 
 ![demo](./demo.png)
 
-[![Build Status](https://travis-ci.org/try-php/test.svg?branch=master)](https://travis-ci.org/try-php/test)
+[![Build Status](https://travis-ci.org/try-php/tapping.svg?branch=master)](https://travis-ci.org/try-php/tapping)
 
 ## Install
 
