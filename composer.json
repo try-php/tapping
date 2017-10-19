@@ -1,6 +1,6 @@
 {
-    "name": "try/test",
-    "description": "Atomic test functions",
+    "name": "try/tapping",
+    "description": "Atomic testing",
     "type": "library",
     "license": "GPL-2.0",
     "authors": [
