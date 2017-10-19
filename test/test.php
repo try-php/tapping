@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use function Trying\test;
+use function Tapping\test;
 
 // desc is shown in both cases
 ob_start();
