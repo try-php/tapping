@@ -4,6 +4,7 @@ namespace Tapping;
 use function Task\{forkTask, getProcessStatus};
 use function Crayon\{text};
 use function Load\{dots,removeLastCharsByCount};
+use TryPhp\PredictOutputTrait;
 
 /**
  * function to trigger a atomic test run and show an success/fail indicator (and on provided flag exit the parent process)
@@ -24,7 +25,10 @@ function test(string $description, callable $test) {
 	$failMessage = "$description $failIndicator";
 
 	try {
-		$pid = forkTask($test, []);
+		$pid = forkTask($test, [new class() {
+			use PredictOutputTrait;
+		}]);
+		
 	} catch(\Exception $ex) {
 		if (!$quiteFlag) {
 			$cleanupBlock = str_repeat(' ', strlen($description) + 2);
@@ -32,11 +36,13 @@ function test(string $description, callable $test) {
 			$exceptionFile = text($ex->getFile());
 			$exceptionLine = text($ex->getLine());
 			$exceptionMessage = text($ex->getMessage())->red();
+ 
+			$exceptionOutput = "\r$cleanupBlock";
+			$exceptionOutput .= "\n$redBlock $description";
+			$exceptionOutput .=  "\n$redBlock $exceptionFile #$exceptionLine";
+			$exceptionOutput .= "\n$redBlock $exceptionMessage\n";
 			
-			fwrite(fopen('php://output', 'w'), "\r$cleanupBlock");
-			fwrite(fopen('php://output', 'w'), "\n$redBlock $description");
-			fwrite(fopen('php://output', 'w'), "\n$redBlock $exceptionFile #$exceptionLine");
-			fwrite(fopen('php://output', 'w'), "\n$redBlock $exceptionMessage\n\n");
+			fwrite(fopen('php://output', 'w'), "$exceptionOutput\n");
 		}
 
 		exit(1);
