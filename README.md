@@ -19,7 +19,7 @@ require_once '/path/to/autoload.php';
 
 use function Tapping\test;
 
-test('some description of the test', function () {
+test('some description of the test', function ($t) {
 	// throw an Exception or exit(1) to fail a test
 });
 ```
@@ -65,7 +65,11 @@ Function to show a notation for a test case, not yet written. As reminder or not
 |---|---|---|
 | $description | `string` | The description of the test to be written. |
 
-## Runner Asserts
+### `$t`
+
+The `$t` argument, is a container for prediction and likewise functions.
+
+#### Predictions
 
 * [Output Prediction](https://github.com/try-php/predict-output)
 
