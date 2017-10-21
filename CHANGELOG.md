@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * added API docs
 
+* output prediction
+
 ### [Changed]
 
 * output to stream write
