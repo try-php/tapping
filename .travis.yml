@@ -4,4 +4,4 @@ php:
   - '7.1'
 before_script: composer install --dev
 script:
-  - php test/test.php
+  - composer test
