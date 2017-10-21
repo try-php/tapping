@@ -65,6 +65,10 @@ Function to show a notation for a test case, not yet written. As reminder or not
 |---|---|---|
 | $description | `string` | The description of the test to be written. |
 
+## Runner Asserts
+
+* [Output Prediction](https://github.com/try-php/predict-output)
+
 ## License
 
 GPL-2.0 © Willi Eßer, Felix Buchheim
