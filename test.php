@@ -27,12 +27,14 @@ function test(string $description, callable $test) {
 	$cleanupBlock = str_repeat(' ', strlen($description) + 2);
 	$redBlock = text('▌')->red();
 
-	set_error_handler(function ($code, $message, $file, $line) use ($redBlock, $cleanupBlock) {
-		$errorMessage = text($message)->red();
-		$errorMessage = "\r$redBlock $errorMessage (Error $code) $cleanupBlock";
-		$errorMessage .= "\n$redBlock $file #$line";
-		fwrite(fopen('php://output', 'w'), "$errorMessage\n\n");
-	});
+	if (!$quiteFlag) {
+		set_error_handler(function ($code, $message, $file, $line) use ($redBlock, $cleanupBlock) {
+			$errorMessage = text($message)->red();
+			$errorMessage = "\r$redBlock $errorMessage (Error $code) $cleanupBlock";
+			$errorMessage .= "\n$redBlock $file #$line";
+			fwrite(fopen('php://output', 'w'), "$errorMessage\n\n");
+		});
+	}
 
 	try {
 		$pid = forkTask($test, [new class() {
