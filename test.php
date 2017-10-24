@@ -24,6 +24,16 @@ function test(string $description, callable $test) {
 	$failIndicator = text('not ok')->red();
 	$failMessage = "$description $failIndicator";
 
+	$cleanupBlock = str_repeat(' ', strlen($description) + 2);
+	$redBlock = text('▌')->red();
+
+	set_error_handler(function ($code, $message, $file, $line) use ($redBlock, $cleanupBlock) {
+		$errorMessage = text($message)->red();
+		$errorMessage = "\r$redBlock $errorMessage (Error $code) $cleanupBlock";
+		$errorMessage .= "\n$redBlock $file #$line";
+		fwrite(fopen('php://output', 'w'), "$errorMessage\n\n");
+	});
+
 	try {
 		$pid = forkTask($test, [new class() {
 			use PredictOutputTrait;
@@ -31,8 +41,6 @@ function test(string $description, callable $test) {
 		
 	} catch(\Exception $ex) {
 		if (!$quiteFlag) {
-			$cleanupBlock = str_repeat(' ', strlen($description) + 2);
-			$redBlock = text('▌')->red();
 			$exceptionFile = text($ex->getFile());
 			$exceptionLine = text($ex->getLine());
 			$exceptionMessage = text($ex->getMessage())->red();
