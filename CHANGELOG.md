@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.1.0] - 26.10.2017
 ### [Added]
 
 * `test` function that forks off the test as new process
@@ -16,7 +18,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * added API docs
 
-* output prediction
+* `output` prediction
+
+* `exception` prediction
+
+* `is` prediction
+
+* removed
+
+* error handler function
 
 ### [Changed]
 
