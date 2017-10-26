@@ -15,7 +15,9 @@
         "troublete/task": "^2.1",
         "troublete/crayon": "^1.1",
         "troublete/load": "^1.0",
-        "try/predict-output": "^1.0"
+        "try/predict-output": "^1.0",
+        "try/predict-exception": "^1.0",
+        "try/predict-is": "^1.0"
     },
     "autoload": {
     	"files": [

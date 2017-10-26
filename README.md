@@ -71,7 +71,9 @@ The `$t` argument, is a container for prediction and likewise functions.
 
 #### Predictions
 
-* [Output Prediction](https://github.com/try-php/predict-output)
+* [predict-is](https://github.com/try-php/predict-is)
+* [predict-output](https://github.com/try-php/predict-output)
+* [predict-exception](https://github.com/try-php/predict-exception)
 
 ## License
 

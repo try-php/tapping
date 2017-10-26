@@ -4,7 +4,7 @@ namespace Tapping;
 use function Task\{forkTask, getProcessStatus};
 use function Crayon\{text};
 use function Load\{dots,removeLastCharsByCount};
-use TryPhp\PredictOutputTrait;
+use TryPhp\{PredictOutputTrait, PredictIsTrait, PredictExceptionTrait};
 
 /**
  * function to trigger a atomic test run and show an success/fail indicator (and on provided flag exit the parent process)
@@ -39,6 +39,8 @@ function test(string $description, callable $test) {
 	try {
 		$pid = forkTask($test, [new class() {
 			use PredictOutputTrait;
+			use PredictIsTrait;
+			use PredictExceptionTrait;
 		}]);
 		
 	} catch(\Exception $ex) {
