@@ -15,6 +15,7 @@ function test(string $description, callable $test) {
 	$options = getopt('bq', ['build', 'quite']);
 	$buildFlag = isset($options['b']) || isset($options['build']);
 	$quiteFlag = isset($options['q']) || isset($options['quite']);
+	$phpOutputBuffer = 'php://output';
 
 	$loadingDescription = text($description)->yellow();
 
@@ -28,11 +29,11 @@ function test(string $description, callable $test) {
 	$redBlock = text('▌')->red();
 
 	if (!$quiteFlag) {
-		set_error_handler(function ($code, $message, $file, $line) use ($redBlock, $cleanupBlock) {
+		set_error_handler(function ($code, $message, $file, $line) use ($redBlock, $cleanupBlock, $phpOutputBuffer) {
 			$errorMessage = text($message)->red();
 			$errorMessage = "\r$redBlock $errorMessage (Error $code) $cleanupBlock";
 			$errorMessage .= "\n$redBlock $file #$line";
-			fwrite(fopen('php://output', 'w'), "$errorMessage\n\n");
+			fwrite(fopen($phpOutputBuffer, 'w'), "$errorMessage\n\n");
 		});
 	}
 
@@ -54,7 +55,7 @@ function test(string $description, callable $test) {
 			$exceptionOutput .=  "\n$redBlock $exceptionFile #$exceptionLine";
 			$exceptionOutput .= "\n$redBlock $exceptionMessage\n";
 			
-			fwrite(fopen('php://output', 'w'), "$exceptionOutput\n");
+			fwrite(fopen($phpOutputBuffer, 'w'), "$exceptionOutput\n");
 		}
 
 		exit(1);
@@ -65,17 +66,13 @@ function test(string $description, callable $test) {
 			dots(function () use ($pid, $loadingDescription) {
 				$processStatus = getProcessStatus($pid, $status);
 				if ($processStatus > 0) {
-					if ($status === 0) {
-						return true;
-					} else {
-						return false;
-					}
+					return $status === 0;
 				}
 
 				return "$loadingDescription";
 			}, "$successMessage");
 		} catch (\Exception $ex) {
-			fwrite(fopen('php://output', 'w'), "$failMessage\n");
+			fwrite(fopen($phpOutputBuffer, 'w'), "$failMessage\n");
 
 			// exit parent process if in a ci run
 			if ($buildFlag) {
@@ -88,7 +85,7 @@ function test(string $description, callable $test) {
 }
 
 /**
- * function to trigger an TODO indicator on test run
+ * function to trigger an indicator that there is something to do on test run
  * @param string $description
  */
 function todo(string $description) {
