@@ -12,76 +12,76 @@ use TryPhp\{PredictOutputTrait, PredictIsTrait, PredictExceptionTrait};
  * @param callable $test
  */
 function test(string $description, callable $test) {
-	$options = getopt('bq', ['build', 'quite']);
-	$buildFlag = isset($options['b']) || isset($options['build']);
-	$quiteFlag = isset($options['q']) || isset($options['quite']);
-	$phpOutputBuffer = 'php://output';
+    $options = getopt('bq', ['build', 'quite']);
+    $buildFlag = isset($options['b']) || isset($options['build']);
+    $quiteFlag = isset($options['q']) || isset($options['quite']);
+    $phpOutputBuffer = 'php://output';
 
-	$loadingDescription = text($description)->yellow();
+    $loadingDescription = text($description)->yellow();
 
-	$successIndicator = text('ok')->green();
-	$successMessage = "$description $successIndicator";
+    $successIndicator = text('ok')->green();
+    $successMessage = "$description $successIndicator";
 
-	$failIndicator = text('not ok')->red();
-	$failMessage = "$description $failIndicator";
+    $failIndicator = text('not ok')->red();
+    $failMessage = "$description $failIndicator";
 
-	$cleanupBlock = str_repeat(' ', strlen($description) + 2);
-	$redBlock = text('▌')->red();
+    $cleanupBlock = str_repeat(' ', strlen($description) + 2);
+    $redBlock = text('▌')->red();
 
-	if (!$quiteFlag) {
-		set_error_handler(function ($code, $message, $file, $line) use ($redBlock, $cleanupBlock, $phpOutputBuffer) {
-			$errorMessage = text($message)->red();
-			$errorMessage = "\r$redBlock $errorMessage (Error $code) $cleanupBlock";
-			$errorMessage .= "\n$redBlock $file #$line";
-			fwrite(fopen($phpOutputBuffer, 'w'), "$errorMessage\n\n");
-		});
-	}
+    if (!$quiteFlag) {
+        set_error_handler(function ($code, $message, $file, $line) use ($redBlock, $cleanupBlock, $phpOutputBuffer) {
+            $errorMessage = text($message)->red();
+            $errorMessage = "\r$redBlock $errorMessage (Error $code) $cleanupBlock";
+            $errorMessage .= "\n$redBlock $file #$line";
+            fwrite(fopen($phpOutputBuffer, 'w'), "$errorMessage\n\n");
+        });
+    }
 
-	try {
-		$pid = forkTask($test, [new class() {
-			use PredictOutputTrait;
-			use PredictIsTrait;
-			use PredictExceptionTrait;
-		}]);
-		
-	} catch(\Exception $ex) {
-		if (!$quiteFlag) {
-			$exceptionFile = text($ex->getFile());
-			$exceptionLine = text($ex->getLine());
-			$exceptionMessage = text($ex->getMessage())->red();
- 
-			$exceptionOutput = "\r$cleanupBlock";
-			$exceptionOutput .= "\n$redBlock $description";
-			$exceptionOutput .=  "\n$redBlock $exceptionFile #$exceptionLine";
-			$exceptionOutput .= "\n$redBlock $exceptionMessage\n";
-			
-			fwrite(fopen($phpOutputBuffer, 'w'), "$exceptionOutput\n");
-		}
+    try {
+        $pid = forkTask($test, [new class() {
+            use PredictOutputTrait;
+            use PredictIsTrait;
+            use PredictExceptionTrait;
+        }]);
 
-		exit(1);
-	}
+    } catch(\Exception $ex) {
+        if (!$quiteFlag) {
+            $exceptionFile = text($ex->getFile());
+            $exceptionLine = text($ex->getLine());
+            $exceptionMessage = text($ex->getMessage())->red();
 
-	if ($pid > 0) {
-		try {
-			dots(function () use ($pid, $loadingDescription) {
-				$processStatus = getProcessStatus($pid, $status);
-				if ($processStatus > 0) {
-					return $status === 0;
-				}
+            $exceptionOutput = "\r$cleanupBlock";
+            $exceptionOutput .= "\n$redBlock $description";
+            $exceptionOutput .=  "\n$redBlock $exceptionFile #$exceptionLine";
+            $exceptionOutput .= "\n$redBlock $exceptionMessage\n";
 
-				return "$loadingDescription";
-			}, "$successMessage");
-		} catch (\Exception $ex) {
-			fwrite(fopen($phpOutputBuffer, 'w'), "$failMessage\n");
+            fwrite(fopen($phpOutputBuffer, 'w'), "$exceptionOutput\n");
+        }
 
-			// exit parent process if in a ci run
-			if ($buildFlag) {
-				exit(1);
-			}
-		}
-	} else {
-		exit;
-	}
+        exit(1);
+    }
+
+    if ($pid > 0) {
+        try {
+            dots(function () use ($pid, $loadingDescription) {
+                $processStatus = getProcessStatus($pid, $status);
+                if ($processStatus > 0) {
+                    return $status === 0;
+                }
+
+                return "$loadingDescription";
+            }, "$successMessage");
+        } catch (\Exception $ex) {
+            fwrite(fopen($phpOutputBuffer, 'w'), "$failMessage\n");
+
+            // exit parent process if in a ci run
+            if ($buildFlag) {
+                exit(1);
+            }
+        }
+    } else {
+        exit;
+    }
 }
 
 /**
@@ -89,7 +89,7 @@ function test(string $description, callable $test) {
  * @param string $description
  */
 function todo(string $description) {
-	$todoIndicator = text('todo')->magenta()->italic();
-	$todoDescription = text($description);
-	fwrite(fopen('php://output', 'w'), "$todoIndicator $todoDescription\n");
+    $todoIndicator = text('todo')->magenta()->italic();
+    $todoDescription = text($description);
+    fwrite(fopen('php://output', 'w'), "$todoIndicator $todoDescription\n");
 }
