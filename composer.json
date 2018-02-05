@@ -2,7 +2,7 @@
     "name": "try/tapping",
     "description": "Atomic testing",
     "type": "library",
-    "license": "GPL-2.0",
+    "license": "GPL-2.0-only",
     "authors": [
         {
             "name": "Willi Eßer",
