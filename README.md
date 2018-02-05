@@ -4,7 +4,7 @@
 ![demo](./demo.png)
 
 [![Build Status](https://travis-ci.org/try-php/tapping.svg?branch=master)](https://travis-ci.org/try-php/tapping)
-[![Technical dept](https://sonarcloud.io/api/badges/measure?key=tapping-library&metric=sqale_debt_ratio&template=FLAT)](https://sonarcloud.io/dashboard/index/tapping-library)
+[![Technical dept](https://sonarcloud.io/api/badges/measure?key=tapping-library&metric=sqale_debt_ratio)](https://sonarcloud.io/dashboard/index/tapping-library)
 
 
 ## Install
